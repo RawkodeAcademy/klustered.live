@@ -85,7 +85,6 @@ app.post("/", async (request, response) => {
     .then((result) => console.log(result))
     .catch((e) => {
       console.error(e);
-      return response.status(500).send(e);
     });
 
   client.v2
@@ -93,7 +92,6 @@ app.post("/", async (request, response) => {
     .then((result) => console.log(result))
     .catch((e) => {
       console.error(e);
-      return response.status(500).send(e);
     });
 
   client.v1
@@ -101,7 +99,6 @@ app.post("/", async (request, response) => {
     .then((result) => console.log(result))
     .catch((e) => {
       console.error(e);
-      return response.status(500).send(e);
     });
 
   db.collection("entries")
