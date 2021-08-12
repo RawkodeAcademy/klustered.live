@@ -92,6 +92,7 @@ app.post("/", async (request, response) => {
       .catch((e) => console.error(`Failed to follow Teleport: ${e}`));
   }
 
+  console.log(`Attempting to retweet ${tweetId}`);
   client.v1
     .post(`statuses/retweet/${tweetId}.json`, {}, {})
     .then((result) => console.log("Successfully retweeted"))
