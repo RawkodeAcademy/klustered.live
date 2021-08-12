@@ -11,15 +11,18 @@ export default function Home() {
   // User Authentication
   const [user, loading] = useAuthState(firebase.auth());
   const [entered, setEntered] = useLocalStorage("entered", false);
+  const [showEnterButton, setShowEnterButton] = useState(true);
 
   const enterCompetition = () => {
+    setShowEnterButton(false);
+
     var submitCompetition = firebase.functions().httpsCallable("app");
     submitCompetition({})
       .then((result) => {
         setEntered(true);
         console.log(result);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => setShowEnterButton(true));
   };
 
   const signOut = () => {
@@ -43,7 +46,7 @@ export default function Home() {
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
 
-      {entered && (
+      {user && entered && (
         <>
           <p>You've entered!</p>
           <iframe
@@ -82,7 +85,9 @@ export default function Home() {
             episode.
           </div>
 
-          <button onClick={enterCompetition}>Enter Competition</button>
+          {showEnterButton && (
+            <button onClick={enterCompetition}>Enter Competition</button>
+          )}
         </>
       )}
     </div>

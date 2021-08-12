@@ -102,8 +102,16 @@ app.post("/", async (request, response) => {
     });
 
   db.collection("entries")
-    .doc(currentUid)
-    .set({ timestamp: new Date().toISOString() }, { merge: true });
+    // @ts-ignore
+    .doc(request.user.uid)
+    .set(
+      {
+        displayName: request.user.displayName,
+        twitter_uid: currentUid,
+        timestamp: new Date().toISOString(),
+      },
+      { merge: true }
+    );
 
   response.send({
     data: `Done`,
