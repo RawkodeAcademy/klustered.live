@@ -3,6 +3,7 @@ import "firebase/functions";
 import { useAuthState } from "react-firebase-hooks/auth";
 import React, { useState } from "react";
 import Auth from "../components/Auth";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Home() {
   // Firestore
@@ -26,6 +27,7 @@ export default function Home() {
   };
 
   const signOut = () => {
+    setEntered(true);
     firebase.auth().signOut();
   };
 
@@ -43,6 +45,12 @@ export default function Home() {
           "linear-gradient(180deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
       }}
     >
+      <h1>Klustered Retweet Competition</h1>
+
+      {user && <button onClick={() => signOut()}>Signout</button>}
+
+      <hr />
+
       {loading && <h4>Loading...</h4>}
       {!user && <Auth />}
 
@@ -63,12 +71,6 @@ export default function Home() {
 
       {!entered && user && (
         <>
-          <h1>Klustered Retweet Competition</h1>
-
-          <button onClick={() => signOut()}>Signout</button>
-
-          <hr />
-
           <div style={{ flexDirection: "row", display: "flex" }}>WARNING:</div>
           <div style={{ flexDirection: "row", display: "flex" }}>
             By clicking "enter" you, this app will follow both the @rawkode and
@@ -87,6 +89,9 @@ export default function Home() {
 
           {showEnterButton && (
             <button onClick={enterCompetition}>Enter Competition</button>
+          )}
+          {!showEnterButton && (
+            <ClipLoader color="#ffff00" loading={!showEnterButton} size={150} />
           )}
         </>
       )}

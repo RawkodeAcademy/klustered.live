@@ -10,8 +10,6 @@ const db = admin.firestore();
 const app = express();
 
 const validateFirebaseIdToken = async (req: any, res: any, next: any) => {
-  console.log("Check if request is authorized with Firebase ID token");
-
   if (
     (!req.headers.authorization ||
       !req.headers.authorization.startsWith("Bearer ")) &&
@@ -36,7 +34,6 @@ const validateFirebaseIdToken = async (req: any, res: any, next: any) => {
     // Read the ID Token from the Authorization header.
     idToken = req.headers.authorization.split("Bearer ")[1];
   } else if (req.cookies) {
-    console.log('Found "__session" cookie');
     // Read the ID Token from cookie.
     idToken = req.cookies.__session;
   } else {
@@ -47,7 +44,6 @@ const validateFirebaseIdToken = async (req: any, res: any, next: any) => {
 
   try {
     const decodedIdToken = await admin.auth().verifyIdToken(idToken);
-    console.log("ID Token correctly decoded", decodedIdToken);
     req.user = decodedIdToken;
     next();
     return;
@@ -80,33 +76,34 @@ app.post("/", async (request, response) => {
   // @ts-ignore
   const currentUid = user.data()["providerData"][0]["uid"];
 
-  client.v2
-    .follow(currentUid, "22761152")
-    .then((result) => console.log(result))
-    .catch((e) => {
-      console.error(e);
-    });
+  console.log(`Current user is ${currentUid}`);
 
-  client.v2
-    .follow(currentUid, "3318194690")
-    .then((result) => console.log(result))
-    .catch((e) => {
-      console.error(e);
-    });
+  if (currentUid != "22761152") {
+    client.v2
+      .follow(currentUid, "22761152")
+      .then((result) => console.log("Successfully followed @rawkode"))
+      .catch((e) => console.error(`Failed to follow Rawkode: ${e}`));
+  }
+
+  if (currentUid != "3318194690") {
+    client.v2
+      .follow(currentUid, "3318194690")
+      .then((result) => console.log("Successfully followed @goteleport"))
+      .catch((e) => console.error(`Failed to follow Teleport: ${e}`));
+  }
 
   client.v1
     .post(`statuses/retweet/${tweetId}.json`, {}, {})
-    .then((result) => console.log(result))
-    .catch((e) => {
-      console.error(e);
-    });
+    .then((result) => console.log("Successfully retweeted"))
+    .catch((e) => console.error(`Failed to retweet: ${e}`));
 
   db.collection("entries")
     // @ts-ignore
-    .doc(request.user.uid)
+    .doc(user.data()["uid"])
     .set(
       {
-        displayName: request.user.displayName,
+        // @ts-ignore
+        displayName: user.data()["displayName"],
         twitter_uid: currentUid,
         timestamp: new Date().toISOString(),
       },

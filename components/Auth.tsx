@@ -41,8 +41,7 @@ function SignInScreen() {
         justifyContent: "center",
       }}
     >
-      <h1>Klustered Live</h1>
-      <p>Please authenticate yourself</p>
+      <strong>Please authenticate yourself</strong>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     </div>
   );
