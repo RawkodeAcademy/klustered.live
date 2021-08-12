@@ -5,7 +5,7 @@ import "firebase/firestore";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBV6oO5ecQWIWb325nS20XbwXi_SSEsRUg",
-  authDomain: "klustered.web.app",
+  authDomain: "klustered.live",
   databaseURL:
     "https://rawkode-academy-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "rawkode-academy",
