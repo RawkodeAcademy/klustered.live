@@ -14,8 +14,10 @@ export default function Home() {
   const [entered, setEntered] = useLocalStorage("entered", false);
   const [showEnterButton, setShowEnterButton] = useState(true);
 
-  const enterCompetition = () => {
+  const enterCompetition = async () => {
     setShowEnterButton(false);
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     var submitCompetition = firebase.functions().httpsCallable("app");
     submitCompetition({})
