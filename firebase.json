@@ -4,6 +4,7 @@
     "source": "functions"
   },
   "hosting": {
+    "target": "klustered",
     "public": "out",
     "ignore": [
       "firebase.json",
