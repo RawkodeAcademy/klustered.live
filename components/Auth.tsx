@@ -8,7 +8,7 @@ const uiConfig = {
   signInSuccessUrl: "/",
   signInOptions: [firebase.auth.TwitterAuthProvider.PROVIDER_ID],
   callbacks: {
-    signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+    signInSuccessWithAuthResult: (authResult) => {
       const db = firebase.firestore();
 
       db.collection("users")
@@ -20,9 +20,9 @@ const uiConfig = {
           },
           { merge: true }
         )
-        .then(() => console.log("OK"))
+        .then(() => console.log("Auth OK"))
         .catch((error) => {
-          console.log("Error authenticating: ", error);
+          console.error("Error authenticating: ", error);
         });
 
       return false;
