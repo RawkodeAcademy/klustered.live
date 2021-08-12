@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "rawkode-academy"
+  },
+  "targets": {
+    "rawkode-academy": {
+      "hosting": {
+        "klustered": [
+          "klustered"
+        ]
+      }
+    }
   }
 }
